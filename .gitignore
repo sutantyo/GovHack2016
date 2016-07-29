@@ -1,6 +1,10 @@
 # Logs
 logs
 *.log
+*.swo
+*.swp
+*.swn
+.DS_Store
 npm-debug.log*
 
 # Runtime data
