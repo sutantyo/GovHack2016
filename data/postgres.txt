@@ -1,6 +1,6 @@
 RequestNum,Status,DateEntere,DateReceiv,DateRespon,DateComple,DateDue,RequestTyp,IncidentAd,FMTD_TITLE,latitude,longitude
 
-to connect: postgresql -U postgres
+to connect: psql -U postgres
 
 CREATE DATABASE parramatta;
 \c parramatta;
