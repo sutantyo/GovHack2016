@@ -5,9 +5,9 @@ var app = express();
 var url = require('url');
 var pg = require('pg');
 
-var connection_string = "postgres://postgres@localhost:5432/parramatta";
+var connection_string = "postgres://postgres:postgres@127.0.0.1:5432/parramatta";
 
-app.set('port',(process.env.PORT || 5000));
+app.set('port',(process.env.PORT || 80));
 
 // this is used to serve files in public directory
 app.use(express.static(__dirname + '/views'));
