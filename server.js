@@ -1,6 +1,6 @@
 import express from 'express';
 let app = express();
-let port_number  = 3000;
+let port_number  = 80;
 
 app.use(express.static('public'));
 
