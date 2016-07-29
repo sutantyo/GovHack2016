@@ -1,0 +1,23 @@
+RequestNum,Status,DateEntere,DateReceiv,DateRespon,DateComple,DateDue,RequestTyp,IncidentAd,FMTD_TITLE,latitude,longitude
+
+to connect: postgresql -U postgres
+
+CREATE DATABASE parramatta;
+\c parramatta;
+
+CREATE TABLE service_request (id numeric, status text, date_entered text, date_received text, date_responded text, date_completed text, date_due text, request_type text, address text, lot text, longitude numeric, latitude numeric);
+
+COPY service_request FROM '/var/www/GovHack2016/data/fixed_no_title.csv' WITH CSV;
+
+
+Useful queries:
+
+select distinct status from service_request;o
+select count (distinct request_type) from service_request;
+
+
+For faster queries:
+CREATE INDEX service_request_request_type_idx ON service_request(request_type);
+CREATE INDEX service_request_status_idx ON service_request(status);
+
+CLUSTER service_request USING ... _idx (one of the above)
