@@ -1,0 +1,5 @@
+polynomial, cycle size, number of trees, largest tree size, average tree size, largest tree height, average tree height,tallest tree height, tallest tree size
+x^2+2,4,4,6,3.25,4,2.75,4,6
+x^2+3,5,5,6,2.60,4,2.20,4,6
+x^2+4,6,6,4,2.17,3,2.00,3,4
+x^2+5,2,2,10,6.50,6,4.50,6,10
