@@ -47,6 +47,8 @@
   		var styles = [ {stylers: [{ hue: '#e0dce8' }, { saturation: -60 }, { lightness: 60}] }];
   		map.setOptions({styles: styles});
 
+
+
       var boundaries = [  {id : 'NW', x: -33.7686404977, y: 150.948070188},
   														{id : 'NE', x: -33.768640497, y: 151.084035131},
   														{id : 'SE', x: -33.8750330367, y: 151.084035131},
@@ -56,5 +58,12 @@
     	overlay.setBoundaries(boundaries);
       overlay.setMap(map);
 
+      var locations = [];
+      $.getJSON( "data/locations/all", function( data ) {
+        $.each( data, function( key, val ) {
+          locations.push(val);
+        });
+      });
   </script>
+  <script src="js/local/startup.js" charset="utf-8"></script>
 </html>

@@ -44,7 +44,6 @@ function OverlayView(){
 	this.draw = function() {
 
 		console.log("called draw");
-		this.drawRectangle();
 		_projection = this.getProjection();
 		var _NW_point = find_pixel_position_of(boundary_points[0]);
 		offset = {x : _NW_point.x, y : _NW_point.y};
@@ -56,6 +55,13 @@ function OverlayView(){
 				'height': distance_in_pixels_between(boundary_points[0],boundary_points[3]),
 				'width': distance_in_pixels_between(boundary_points[0],boundary_points[1])
 				})
+			.append('rect')
+			.attr({
+				'height':'100%',
+				'width':'100%',
+				'fill':'red',
+				'fill-opacity':0.01
+			})
 		var connections = this.main_svg.selectAll('path').data(this.edges,function(d){return d.id});
 		connections
 			.attr('d',function(d){return lineFunction(d.path)})
@@ -76,22 +82,8 @@ function OverlayView(){
 
 	};
 
-	this.drawRectangle = function(boundary){
-		this.main_svg.append('rect')
-		.attr({
-			'x':0,
-			'y':0,
-			'width':100,
-			'height':100,
-			'fill':'red'
-		})
-		.style({
-			'fill-opacity':0.1
-		})
-	}
-
 	this.update = function(){
-		//console.log("called update");
+		console.log("called update");
 
 		this.main_svg
 			.style('left', offset.x + 'px')

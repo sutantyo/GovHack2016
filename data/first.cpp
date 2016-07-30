@@ -13,10 +13,14 @@ int main()
 {
   ifstream in_file;
   ofstream out_file;
+	ofstream parcel_file;
   in_file.open("parcel_a.csv");
+	parcel_file.open("parcel_b.csv");
+	parcel_file << "address,longitude,latitude" << endl;
 
   string s = "";
   string address = "";
+	
   while (getline(in_file,s)){
     int first_comma = s.find_first_of(",");
     int second_comma = s.find_first_of(",",first_comma+1);
@@ -41,6 +45,8 @@ int main()
     ss.clear();
     ss << s.substr(long_index+1,final_comma+1-long_index-2);
     ss >> y;
+
+		parcel_file << address << setprecision(13) << "," << x << "," << y << endl;
 
     pair<double,double> c (x,y);
     pair<string,pair<double,double> > tmp(address,c);

@@ -60,6 +60,46 @@ app.get('/data', function(req,res){
 	});
 });
 
+app.get('/data/service/types', function(req,res){
+
+	pg.connect(connection_string, function(err,client,done){
+		if(err)
+			return console.error('error fetching client from pool', err);
+
+		client.query("SELECT DISTINCT request_type FROM service_request", function (err,result){
+			done();
+			if (err){
+				return console.error('error running query',err);
+				res.status(500).send('Error running query');
+			}
+			var json_response = JSON.stringify(result.rows);
+			res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
+			res.end(json_response);
+			client.end();
+		});
+	});
+});
+
+app.get('/data/locations/all', function(req,res){
+
+	pg.connect(connection_string, function(err,client,done){
+		if(err)
+			return console.error('error fetching client from pool', err);
+
+		client.query("SELECT * FROM locations", function (err,result){
+			done();
+			if (err){
+				return console.error('error running query',err);
+				res.status(500).send('Error running query');
+			}
+			var json_response = JSON.stringify(result.rows);
+			res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
+			res.end(json_response);
+			client.end();
+		});
+	});
+});
+
 
 /*
 app.get('/taxi_roma/all', function(req,res){
