@@ -5,7 +5,7 @@ $(document).ready(function(){
 
       console.log('clicked map');
       clearData();
-      d3.selectAll('circle').remove();
+      d3.selectAll('image.iconpic').remove();
       scottClickReceive(event);
       var lat = event.latLng.lat();
       var lon = event.latLng.lng();
@@ -36,11 +36,12 @@ $(document).ready(function(){
 					incidents.push(val);
 				});
         var object_to_draw = [];
-				for(i = 0; i < incidents.length/2; i++){
-          console.log(i);
+				for(i = 0; i < incidents.length; i++){
           //console.log(incidents[i].latitude + " " + incidents[i].longitude +  " " + incidents[i].address + incidents[i].request_type);
-          console.log(incidents[i].request_type);
-          object_to_draw.push({ id: i, x: incidents[i].latitude, y: incidents[i].longitude, type: incidents[i].request_type});
+          if (!iconList[incidents[i].request_type])
+            console.log(incidents[i].request_type);
+          //console.log(incidents[i].address);
+          object_to_draw.push({ id: i, x: incidents[i].latitude, y: incidents[i].longitude, type: incidents[i].request_type, address: incidents[i].address, date_received: incidents[i].date_received});
           overlay.drawIncidents(object_to_draw);
 					//console.log(incidents[i].latitude + " " + incidents[i].longitude);
 				}

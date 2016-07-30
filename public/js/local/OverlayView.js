@@ -43,19 +43,18 @@ function OverlayView(){
 
 	this.drawIncidents = function(incidents) {
 		this.incidents = incidents;
-		this.main_svg.selectAll('circles').data(this.incidents,function(d){return d.id}).enter().append('circle')
+		this.main_svg.selectAll('image').data(this.incidents,function(d){return d.id}).enter().append('svg:image')
 			.attr({
-				'cx' : function(d){return find_pixel_position_of(d).x - offset.x + 0},
-				'cy' : function(d){return find_pixel_position_of(d).y - offset.y + 0},
-				'r' : '20px',
-				'stroke-width' : '2px',
-				'stroke' : function(d){if (iconBorder[d.type]) return iconBorder[d.type]; else return iconBorder["Question"];}
-			})
-			.style({
-				'fill' : function(d){if (iconList[d.type]) return "url("+iconList[d.type]+")"; else return "url(#question)";}
+				'class' : 'iconpic',
+				'x' : function(d){return find_pixel_position_of(d).x - offset.x - 20},
+				'y' : function(d){return find_pixel_position_of(d).y - offset.y - 20},
+				'width' : '40px',
+				'height' : '40px',
+				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
 			.append("svg:title")
-			.text(function(d){return d.type})
+			.text(function(d){return d.type + "\n" + d.address + "\n" + d.date_received})
+
 	}
 
 	this.draw = function() {
@@ -87,7 +86,7 @@ function OverlayView(){
 		//console.log("incidents is " + incidents[0]);
 		//incidents.each(update_circle_position2);
 
-		var incidents = this.main_svg.selectAll('circle').data(this.incidents,function(d){return d.id});
+		var incidents = this.main_svg.selectAll('image.iconpic').data(this.incidents,function(d){return d.id});
 		incidents.each(update_circle_position2);
 
 		/*
@@ -140,15 +139,14 @@ function OverlayView(){
 		return d3.select(this)
 			.style('fill-opacity',1)
 			.attr({
-				'cx': function(d){return position.x - offset.x},
-				'cy': function(d){return position.y - offset.y},
-				'r' : '20px',
-				'stroke-width' : '2px',
-				'stroke' : function(d){if (iconBorder[d.type]) return iconBorder[d.type]; else return iconBorder["Question"];}
+				'x' : function(d){return position.x-offset.x-20},
+				'y' : function(d){return position.y-offset.y-20},
+				'width' : '40px',
+				'height' : '40px',
+				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
-			.style({
-				'fill' : function(d){if (iconList[d.type]) return "url("+iconList[d.type]+")"; else return "url(#question)";}
-			})
+			.append("svg:title")
+			.text(function(d){return d.type})
 	}
 	function set_circle_position(d){
 		var position = find_pixel_position_of(d);

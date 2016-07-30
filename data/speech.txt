@@ -1,0 +1,48 @@
+
+
+Hi, my name is Daniel, and this is
+
+
+We attended the GovHack node at Collaboratory in Parramatta, kindly hosted by
+Andrew (last name)
+
+and we chose to work with the data that was provided to us by the Parramatta council
+
+One data in particular which we found to bne very interesting is the
+service request,
+I am guessing this is a collection of request that the council performs,
+
+for example, if garbage bin is missed
+
+The data was not in the best state,
+the service request contains addresses where the request originated, and there is
+another spreadsheet that contains the latitude and longitude and addresses
+
+however, there is discrepancy between how the addresses are represented in these
+two spreadsheets, and in fact when we started, out of 25000 requests, 5000 had
+unrecognised address.
+We spent some hours fixing the data and we managed to reduce this down to 500, so
+I'm happy to say that we have about 98% of the reported service request here.
+
+
+We thought, well, this is a very interesting data, and when I was young I loved
+SimCity, and it was always interesting to see what's happening in the various
+neighbourhood in my city.
+
+Scott combined a few more data, such as location of amenities: bus stops, train stations,
+and managed to get a few more interesting data
+
+The focus is always a particular location,
+
+So let's take a look at the app
+
+We have a basic working skeleton here, and the idea is that if you click anywhere
+on the map, you will be able
+
+There are over 200 distinct request types, so it would be an overkill to have 200 different
+
+but most have same category
+
+You can see some interesting
+
+Rydalmere public school
