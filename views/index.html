@@ -26,12 +26,11 @@
 
     <div class='container-fluid'>
       <div class='page-header'>
-        <h2> Parramatta City Council Explorer</h2>
+        <h2> Parramatta City Council Neighbourhood Explorer</h2>
       </div>
 
         <ul class="nav navbar-nav navbar-left">
-          <li class="dropdown">
-          </li>
+          <li>Click anywhere on the map to get started</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -43,6 +42,7 @@
               <li><img class="legend" src="img\car.png"/> Motor Vehicles, Traffic, and Parking </li>
               <li><img class="legend" src="img\garbage.png"/> Illegal Dumping</li>
               <li><img class="legend" src="img\poison.png"/> Pollution and Poisoning Incidents</li>
+              <li><img class="legend" src="img\court.png"/> Council Matters and Infringements </li>
               <li><img class="legend" src="img\barking.png"/> Domestic Animals </li>
               <li><img class="legend" src="img\possum.png"/> Feral and Wild Animals</li>
               <li><img class="legend" src="img\greenbin.png"/> Waste Services</li>
@@ -67,8 +67,8 @@
   <script src="js/local/OverlayView.js" charset="utf-8"></script>
   <script>
       var map = new google.maps.Map(d3.select("#mainmap").node(), {
-  			zoom: 18,
-  			center: new google.maps.LatLng(-33.8150,151.0511),
+  			zoom: 15,
+  			center: new google.maps.LatLng(-33.8114,151.0618),
   			mapTypeId: google.maps.MapTypeId.ROADMAP
   		});
   		//var styles = [ {stylers: [{ hue: '#e0dce8' }, { saturation: -60 }, { lightness: 60}] }];
