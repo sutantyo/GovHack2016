@@ -46,10 +46,10 @@ function OverlayView(){
 		this.main_svg.selectAll('image').data(this.incidents,function(d){return d.id}).enter().append('svg:image')
 			.attr({
 				'class' : 'iconpic',
-				'x' : function(d){return find_pixel_position_of(d).x - offset.x - 20},
-				'y' : function(d){return find_pixel_position_of(d).y - offset.y - 20},
-				'width' : '36px',
-				'height' : '36px',
+				'x' : function(d){return find_pixel_position_of(d).x - offset.x - d.offset},
+				'y' : function(d){return find_pixel_position_of(d).y - offset.y - d.offset},
+				'width' : function(d){return d.size},
+				'height' : function(d){return d.size},
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
 			.style('opacity',0.01)
@@ -141,10 +141,10 @@ function OverlayView(){
 		return d3.select(this)
 			.style('fill-opacity',1)
 			.attr({
-				'x' : function(d){return position.x-offset.x-20},
-				'y' : function(d){return position.y-offset.y-20},
-				'width' : '36px',
-				'height' : '36px',
+				'x' : function(d){return position.x-offset.x-d.offset},
+				'y' : function(d){return position.y-offset.y-d.offset},
+				'width' : function(d){return d.size},
+				'height' : function(d){return d.size},
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
 			.append("svg:title")

@@ -159,3 +159,4 @@ iconList["Vandalism of Parks & Reserves"] = "img/police.png";
 iconList["Insurance Matters"] = "img/police.png";
 
 iconList["Question"] = "img/question.png";
+iconList["Map Marker"] = "img/marker.png";
