@@ -48,8 +48,8 @@ function OverlayView(){
 				'class' : 'iconpic',
 				'x' : function(d){return find_pixel_position_of(d).x - offset.x - 20},
 				'y' : function(d){return find_pixel_position_of(d).y - offset.y - 20},
-				'width' : '40px',
-				'height' : '40px',
+				'width' : '36px',
+				'height' : '36px',
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
 			.append("svg:title")
@@ -141,8 +141,8 @@ function OverlayView(){
 			.attr({
 				'x' : function(d){return position.x-offset.x-20},
 				'y' : function(d){return position.y-offset.y-20},
-				'width' : '40px',
-				'height' : '40px',
+				'width' : '36px',
+				'height' : '36px',
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
 			.append("svg:title")

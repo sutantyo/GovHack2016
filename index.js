@@ -174,8 +174,8 @@ app.get('/data/service/location', function(req,res){
 				// return console.error('error fetching client from pool', err);
 			// }
 			var query_string = "SELECT request_type, date_received, latitude, longitude, address FROM service_request ";
-			query_string = query_string + " WHERE latitude >= " + (lat-0.001) + " AND latitude <= " + (lat+0.001);
-			query_string = query_string + " AND longitude >= " + (lon-0.001) + " AND longitude <= " + (lon+0.001);
+			query_string = query_string + " WHERE latitude >= " + (lat-0.003) + " AND latitude <= " + (lat+0.003);
+			query_string = query_string + " AND longitude >= " + (lon-0.003) + " AND longitude <= " + (lon+0.003);
 
 			console.log(query_string);
 			query(query_string, function (err,rows,result){

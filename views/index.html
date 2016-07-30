@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/page.css">
     <script src="js/lib/jquery-2.1.3.min.js" charset="utf-8"></script>
     <script src="js/lib/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/lib/bootstrap-select.min.js" charset="utf-8"></script>
@@ -22,10 +23,37 @@
     <!-- document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>');-->
   </head>
   <body>
+
     <div class='container-fluid'>
       <div class='page-header'>
-        <h2> Main map </h2>
+        <h2> Parramatta City Council Explorer</h2>
       </div>
+
+        <ul class="nav navbar-nav navbar-left">
+          <li class="dropdown">
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Info <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><img class="legend" style="opacity:0" src="img\police.png"/> List of Map Legends</li>
+              <li role="separator" class="divider"></li>
+              <li><img class="legend" src="img\police.png"/> Police Matter</li>
+              <li><img class="legend" src="img\car.png"/> Motor Vehicles, Traffic, and Parking </li>
+              <li><img class="legend" src="img\garbage.png"/> Illegal Dumping</li>
+              <li><img class="legend" src="img\poison.png"/> Pollution and Poisoning Incidents</li>
+              <li><img class="legend" src="img\barking.png"/> Domestic Animals </li>
+              <li><img class="legend" src="img\possum.png"/> Feral and Wild Animals</li>
+              <li><img class="legend" src="img\greenbin.png"/> Waste Services</li>
+              <li><img class="legend" src="img\roadworks.png"/> Major Repairs</li>
+              <li><img class="legend" src="img\repair.png"/> Minor Repairs</li>
+              <li><img class="legend" src="img\trees.png"/> Trees and Parks </li>
+              <li><img class="legend" src="img\water.png"/> Water and Drainage </li>
+              <li><img class="legend" src="img\question.png"/> Unclassified </li>
+            </ul>
+          </li>
+        </ul>
 
       <div id='mainmap'></div>
       <div id='mapinfo'>
