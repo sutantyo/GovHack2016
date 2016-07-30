@@ -18,7 +18,7 @@ function OverlayView(){
 	this.show_labels = false;
 	this.show_edges = true;
 
-	this.nodes = [];
+	this.incidents = [];
 	this.edges = [];
 
 	this.show
@@ -41,13 +41,30 @@ function OverlayView(){
 		_main_layer.remove();
 	};
 
-	this.draw = function() {
+	this.drawIncidents = function(incidents) {
+		this.incidents = incidents;
+		this.main_svg.selectAll('circles').data(this.incidents,function(d){return d.id}).enter().append('circle')
+			.attr({
+				'cx' : function(d){return find_pixel_position_of(d).x - offset.x + 0},
+				'cy' : function(d){return find_pixel_position_of(d).y - offset.y + 0},
+				'r' : '20px',
+				'stroke-width' : '2px',
+				'stroke' : function(d){if (iconBorder[d.type]) return iconBorder[d.type]; else return iconBorder["Question"];}
+			})
+			.style({
+				'fill' : function(d){if (iconList[d.type]) return "url("+iconList[d.type]+")"; else return "url(#question)";}
+			})
+			.append("svg:title")
+			.text(function(d){return d.type})
+	}
 
+	this.draw = function() {
 		console.log("called draw");
 		_projection = this.getProjection();
 		var _NW_point = find_pixel_position_of(boundary_points[0]);
 		offset = {x : _NW_point.x, y : _NW_point.y};
 
+		//this.main_svg.selectAll("rect#redrect").remove()
 		this.main_svg
 			.style('left', offset.x + 'px')
 			.style('top', offset.y + 'px')
@@ -55,22 +72,26 @@ function OverlayView(){
 				'height': distance_in_pixels_between(boundary_points[0],boundary_points[3]),
 				'width': distance_in_pixels_between(boundary_points[0],boundary_points[1])
 				})
-			.append('rect')
+				/*
+				.append('rect')
 			.attr({
+				'id':'redrect',
 				'height':'100%',
 				'width':'100%',
 				'fill':'red',
-				'fill-opacity':0.01
+				'fill-opacity':0.1
 			})
-		var connections = this.main_svg.selectAll('path').data(this.edges,function(d){return d.id});
-		connections
-			.attr('d',function(d){return lineFunction(d.path)})
-			.style('stroke',function(d){return d.origin.color})
-			.style('stroke-width','1pt');
-		var taxis = this.main_svg.selectAll('circle').data(this.nodes,function(d){return d.id});
-		taxis.each(update_circle_position2);
 
-		var labels = this.main_svg.selectAll('text').data(this.nodes,function(d){return d.id});
+				*/
+		//this.incidents.each(this.drawIncidents);
+		//console.log("incidents is " + incidents[0]);
+		//incidents.each(update_circle_position2);
+
+		var incidents = this.main_svg.selectAll('circle').data(this.incidents,function(d){return d.id});
+		incidents.each(update_circle_position2);
+
+		/*
+		var labels = this.main_svg.selectAll('text').data(this.incidents,function(d){return d.id});
 		labels
 			.attr({
 				'x': function(d){return find_pixel_position_of(d).x - offset.x + 7},
@@ -79,97 +100,10 @@ function OverlayView(){
 			})
 			.text(function(d){ return d.id })
 			.style('fill-opacity',1)
+			*/
 
 	};
 
-	this.update = function(){
-		console.log("called update");
-
-		this.main_svg
-			.style('left', offset.x + 'px')
-			.style('top', offset.y + 'px')
-			.attr({
-				'height': distance_in_pixels_between(boundary_points[0],boundary_points[3]),
-				'width': distance_in_pixels_between(boundary_points[0],boundary_points[1])
-				})
-
-		if (this.show_edges)
-		{
-			var connections = this.main_svg.selectAll('path').data(this.edges,function(d){return d.id});
-			connections
-				.transition()
-				.duration(transition_time*0.8)
-				.attr('d',function(d){return lineFunction(d.path)})
-				.style('stroke',function(d){return d.origin.color})
-				.style('stroke-width','1pt')
-			connections.enter().append('path')
-				.attr('d',function(d){return lineFunction(d.path)})
-				.style('stroke','blue')
-				.style('position','absolute')
-				.style('stroke-width','0pt')
-				.style('stroke',function(d){return d.origin.color})
-				.transition()
-					.delay(transition_time*0.8)
-					.duration(transition_time*0.2)
-					.style('stroke-width','1pt')
-			connections.exit()
-				.transition().duration(transition_time*0.25).style('stroke-width','0pt')
-				.remove();
-		}
-		else
-		{
-			this.main_svg.selectAll('path').remove();
-		}
-
-		var taxis = this.main_svg.selectAll('circle').data(this.nodes,function(d){return d.id});
-		taxis.each(update_circle_position);
-		taxis.enter().append('circle').each(set_circle_position)
-			.style('fill-opacity',1e-6).transition().duration(transition_time*0.8).style('fill-opacity',1)
-		//taxis.on('click',function(d){console.log(d);});
-
-		taxis.exit()
-			.transition().duration(transition_time*0.25).style('fill-opacity',1e-6)
-			.remove();
-
-		if (this.show_labels)
-		{
-			var labels = this.main_svg.selectAll('text').data(this.nodes,function(d){return d.id});
-			labels.transition()
-				.duration(transition_time)
-				.attr({
-					'x': function(d){
-						return find_pixel_position_of(d).x - offset.x + 7},
-					'y': function(d){return find_pixel_position_of(d).y - offset.y + 5},
-					'fill': function(d){return d.color}
-				})
-				.text(function(d){ return d.id })
-				.style('fill-opacity',1)
-			labels.enter().append('text')
-				.attr({
-					'x': function(d){return find_pixel_position_of(d).x - offset.x + 7},
-					'y': function(d){return find_pixel_position_of(d).y - offset.y + 5},
-					'fill': function(d){return d.color}
-				})
-				.text(function(d){ return d.id })
-				.style('fill-opacity',1e-6)
-				.transition()
-					.duration(transition_time*0.5)
-					.style('fill-opacity',1)
-			labels.exit()
-				.transition()
-				.duration(transition_time)
-				.style('fill-opacity',1e-6)
-				.remove();
-		}
-		else
-		{
-			this.main_svg.selectAll('text').remove();
-		}
-
-
-
-
-	}; // end this.update
 	var lineFunction = d3.svg.line()
 		.x(function(d) {return find_pixel_position_of(d).x - offset.x;})
 		.y(function(d) {return find_pixel_position_of(d).y - offset.y;})
@@ -188,6 +122,7 @@ function OverlayView(){
 	};
 
 	function update_circle_position(d){
+		console.log(d);
 		var position = find_pixel_position_of(d);
 		return d3.select(this)
 			.transition().duration(transition_time*1.00)
@@ -207,9 +142,12 @@ function OverlayView(){
 			.attr({
 				'cx': function(d){return position.x - offset.x},
 				'cy': function(d){return position.y - offset.y},
-				'r': 6,
-				'fill': function(d){return d.color},
-				'stroke': 'white'
+				'r' : '20px',
+				'stroke-width' : '2px',
+				'stroke' : function(d){if (iconBorder[d.type]) return iconBorder[d.type]; else return iconBorder["Question"];}
+			})
+			.style({
+				'fill' : function(d){if (iconList[d.type]) return "url("+iconList[d.type]+")"; else return "url(#question)";}
 			})
 	}
 	function set_circle_position(d){
@@ -223,7 +161,9 @@ function OverlayView(){
 				'r':6,
 				'fill': function(d){return d.color},
 				'stroke': 'white'
-			});
+			})
+			.append("svg:title")
+			.text(function(d){return d.type})
 	}
 
 

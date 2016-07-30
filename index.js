@@ -4,8 +4,10 @@ var app = express();
 
 var url = require('url');
 var pg = require('pg');
+var query = require('pg-query');
 
 var connection_string = "postgres://postgres:postgres@127.0.0.1:5432/parramatta";
+query.connectionParameters = connection_string;
 
 app.set('port',(process.env.PORT || 3000 ));
 
@@ -42,11 +44,12 @@ app.listen(app.get('port'), function() {
 
 app.get('/data', function(req,res){
 
-	pg.connect(connection_string, function(err,client,done){
-		if(err)
-			return console.error('error fetching client from pool', err);
+	// pg.connect(connection_string, function(err,client,done){
+		// if(err)
+			// return console.error('error fetching client from pool', err);
 
-		client.query("SELECT DISTINCT status FROM service_request", function (err,result){
+		query("SELECT DISTINCT status FROM service_request", function (err,rows,result){
+		// client.query("SELECT DISTINCT status FROM service_request", function (err,result){
 			done();
 			if (err){
 				return console.error('error running query',err);
@@ -55,19 +58,20 @@ app.get('/data', function(req,res){
 			var json_response = JSON.stringify(result.rows);
 			res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
 			res.end(json_response);
-			client.end();
+			// client.end();
 		});
-	});
+	// });
 });
 
 app.get('/data/service/types', function(req,res){
 
-	pg.connect(connection_string, function(err,client,done){
-		if(err)
-			return console.error('error fetching client from pool', err);
+	// pg.connect(connection_string, function(err,client,done){
+		// if(err)
+			// return console.error('error fetching client from pool', err);
 
-		client.query("SELECT DISTINCT request_type FROM service_request", function (err,result){
-			done();
+		query("SELECT DISTINCT request_type FROM service_request", function (err,rows,result){
+		// client.query("SELECT DISTINCT request_type FROM service_request", function (err,result){
+			// done();
 			if (err){
 				return console.error('error running query',err);
 				res.status(500).send('Error running query');
@@ -75,19 +79,21 @@ app.get('/data/service/types', function(req,res){
 			var json_response = JSON.stringify(result.rows);
 			res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
 			res.end(json_response);
-			client.end();
+			// client.end();
 		});
-	});
+	// });
 });
 
 app.get('/data/locations/all', function(req,res){
 
-	pg.connect(connection_string, function(err,client,done){
-		if(err)
-			return console.error('error fetching client from pool', err);
+	// pg.connect(connection_string, function(err,client,done){
+		// if(err)
+			// return console.error('error fetching client from pool', err);
 
-		client.query("SELECT * FROM locations", function (err,result){
-			done();
+
+		query("SELECT * FROM locations", function(err, rows, result){
+		// client.query("SELECT * FROM locations", function (err,result){
+			// done();
 			if (err){
 				return console.error('error running query',err);
 				res.status(500).send('Error running query');
@@ -95,11 +101,103 @@ app.get('/data/locations/all', function(req,res){
 			var json_response = JSON.stringify(result.rows);
 			res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
 			res.end(json_response);
-			client.end();
+			// client.end();
 		});
-	});
+	// });
 });
 
+app.get('/data/stations/all', function(req,res){
+
+	// pg.connect(connection_string, function(err,client,done){
+		// if(err)
+			// return console.error('error fetching client from pool', err);
+
+		query("SELECT name,lat,lon FROM train_stations", function(err, rows, result){
+		// client.query("SELECT name,lat,lon FROM train_stations", function (err,result){
+			// done();
+			if (err){
+				return console.error('error running query',err);
+				res.status(500).send('Error running query');
+			}
+			var json_response = JSON.stringify(result.rows);
+			res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
+			res.end(json_response);
+			// client.end();
+		});
+	// });
+});
+
+
+
+app.get('/data/service/location', function(req,res){
+
+	if (req.query.lat && req.query.lon){
+		var lat = parseFloat(req.query.lat);
+		var lon = parseFloat(req.query.lon);
+		// pg.connect(connection_string, function(err,client,done){
+			// if(err){
+				// return console.error('error fetching client from pool', err);
+			// }
+			var query_string = "SELECT request_type, date_received, latitude, longitude, address FROM service_request ";
+			query_string = query_string + " WHERE latitude >= " + (lat-0.001) + " AND latitude <= " + (lat+0.001);
+			query_string = query_string + " AND longitude >= " + (lon-0.001) + " AND longitude <= " + (lon+0.001);
+
+			console.log(query_string);
+			query(query_string, function (err,rows,result){
+			// client.query(query_string, function (err,result){
+				// done();
+				if (err){
+					return console.error('error running query',err);
+					res.status(500).send('Error running query');
+				} else {
+					var json_response = JSON.stringify(result.rows);
+					res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
+					res.end(json_response);
+				}
+				// client.end();
+			});
+		// });
+	}
+	else
+	{
+		res.status(400).send("Incorrect GET parameters");
+	}
+});
+
+app.get('/data/locations', function(req,res){
+
+	if (req.query.lat && req.query.lon){
+		var lat = parseFloat(req.query.lat);
+		var lon = parseFloat(req.query.lon);
+		// pg.connect(connection_string, function(err,client,done){
+			// if(err){
+				// return console.error('error fetching client from pool', err);
+			// }
+			var query_string = "SELECT * FROM locations ";
+			query_string = query_string + " WHERE latitude >= " + (lat-0.001) + " AND latitude <= " + (lat+0.001);
+			query_string = query_string + " AND longitude >= " + (lon-0.001) + " AND longitude <= " + (lon+0.001);
+
+			console.log(query_string);
+			query(query_string, function (err,rows,result){
+			// client.query(query_string, function (err,result){
+				// done();
+				if (err){
+					return console.error('error running query',err);
+					res.status(500).send('Error running query');
+				} else {
+					var json_response = JSON.stringify(result.rows);
+					res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
+					res.end(json_response);
+				}
+				// client.end();
+			});
+		// });
+	}
+	else
+	{
+		res.status(400).send("Incorrect GET parameters");
+	}
+});
 
 /*
 app.get('/taxi_roma/all', function(req,res){
