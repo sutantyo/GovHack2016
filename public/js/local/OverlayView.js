@@ -52,9 +52,11 @@ function OverlayView(){
 				'height' : '36px',
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
 			})
+			.style('opacity',0.01)
 			.append("svg:title")
 			.text(function(d){return d.type + "\n" + d.address + "\n" + d.date_received})
 
+		this.main_svg.selectAll('image.iconpic').data(this.incidents,function(d){return d.id}).transition().duration(500).style('opacity',1);
 	}
 
 	this.draw = function() {
