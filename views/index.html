@@ -59,11 +59,17 @@
       overlay.setMap(map);
 
       var locations = [];
-      $.getJSON( "data/locations/all", function( data ) {
+      $.getJSON( 'data/locations/all', function( data ) {
         $.each( data, function( key, val ) {
           locations.push(val);
         });
+        $.getScript('js/local/startup.js')
+          .done(function( script, textStatus ) {
+            console.log( textStatus );
+          })
+          .fail(function( jqxhr, settings, exception ) {
+            console.log("failed to load startup script");
+          });
       });
   </script>
-  <script src="js/local/startup.js" charset="utf-8"></script>
-</html>
+bw  1 /html>
