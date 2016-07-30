@@ -8,9 +8,11 @@ CREATE DATABASE parramatta;
 CREATE TABLE service_request (id numeric, status text, date_entered text, date_received text, date_responded text, date_completed text, date_due text, request_type text, address text, lot text, longitude numeric, latitude numeric);
 
 CREATE TABLE locations (address text, longitude numeric, latitude numeric);
+CREATE TABLE bus_stops (name text, lat numeric, lon numeric);
 
 COPY service_request FROM '/var/www/GovHack2016/data/fixed_no_title.csv' WITH CSV;
 COPY locations FROM '/var/www/GovHack2016/data/parcel_b.csv' WITH CSV;
+COPY bus_stops FROM '/var/www/GovHack2016/data/bus_stops.csv' WITH CSV;
 
 Useful queries:
 

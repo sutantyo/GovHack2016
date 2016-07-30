@@ -127,6 +127,41 @@ app.get('/data/stations/all', function(req,res){
 	// });
 });
 
+app.get('/data/stops/location', function(req,res){
+
+	if (req.query.lat && req.query.lon){
+		var lat = parseFloat(req.query.lat);
+		var lon = parseFloat(req.query.lon);
+		// pg.connect(connection_string, function(err,client,done){
+			// if(err){
+				// return console.error('error fetching client from pool', err);
+			// }
+			var query_string = "SELECT name, lat, lon FROM bus_stops ";
+			query_string = query_string + " WHERE lat >= " + (lat-0.001) + " AND lat <= " + (lat+0.001);
+			query_string = query_string + " AND lon >= " + (lon-0.001) + " AND lon <= " + (lon+0.001);
+
+			console.log(query_string);
+			query(query_string, function (err,rows,result){
+			// client.query(query_string, function (err,result){
+				// done();
+				if (err){
+					return console.error('error running query',err);
+					res.status(500).send('Error running query');
+				} else {
+					var json_response = JSON.stringify(result.rows);
+					res.writeHead(200,{'content-type':'application/json','content-length':Buffer.byteLength(json_response)});
+					res.end(json_response);
+				}
+				// client.end();
+			});
+		// });
+	}
+	else
+	{
+		res.status(400).send("Incorrect GET parameters");
+	}
+});
+
 
 
 app.get('/data/service/location', function(req,res){
