@@ -46,8 +46,8 @@ function OverlayView(){
 		this.main_svg.selectAll('image').data(this.incidents,function(d){return d.id}).enter().append('svg:image')
 			.attr({
 				'class' : 'iconpic',
-				'x' : function(d){return find_pixel_position_of(d).x - offset.x - d.offset},
-				'y' : function(d){return find_pixel_position_of(d).y - offset.y - d.offset},
+				'x' : function(d){return find_pixel_position_of(d).x - offset.x - d.offsetx},
+				'y' : function(d){return find_pixel_position_of(d).y - offset.y - d.offsety},
 				'width' : function(d){return d.size},
 				'height' : function(d){return d.size},
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}
@@ -141,8 +141,8 @@ function OverlayView(){
 		return d3.select(this)
 			.style('fill-opacity',1)
 			.attr({
-				'x' : function(d){return position.x-offset.x-d.offset},
-				'y' : function(d){return position.y-offset.y-d.offset},
+				'x' : function(d){return position.x-offset.x-d.offsetx},
+				'y' : function(d){return position.y-offset.y-d.offsety},
 				'width' : function(d){return d.size},
 				'height' : function(d){return d.size},
 				'xlink:href' : function(d){if (iconList[d.type]) return iconList[d.type]; else return iconList["Question"];}

@@ -137,8 +137,8 @@ app.get('/data/stops/location', function(req,res){
 				// return console.error('error fetching client from pool', err);
 			// }
 			var query_string = "SELECT name, lat, lon FROM bus_stops ";
-			query_string = query_string + " WHERE lat >= " + (lat-0.001) + " AND lat <= " + (lat+0.001);
-			query_string = query_string + " AND lon >= " + (lon-0.001) + " AND lon <= " + (lon+0.001);
+			query_string = query_string + " WHERE lat >= " + (lat-0.01) + " AND lat <= " + (lat+0.01);
+			query_string = query_string + " AND lon >= " + (lon-0.01) + " AND lon <= " + (lon+0.01);
 
 			console.log(query_string);
 			query(query_string, function (err,rows,result){

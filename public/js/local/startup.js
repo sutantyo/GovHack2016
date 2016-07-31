@@ -49,12 +49,19 @@ $(document).ready(function(){
                                          type: incidents[i].request_type,
                                          address: incidents[i].address,
                                          size: '32px',
-                                         offset: '20',
+                                         offsetx: '20',
+                                         offsety: '20',
                                          date_received: incidents[i].date_received});
             //console.log(incidents[i].latitude + " " + incidents[i].longitude);
           }
           if (best_address.length > 0){
-            object_to_draw.push({ id: "marker", x: best_x, y: best_y, type: "Map Marker", address: best_address, data_received: "", size: '80px', offset: '80'});
+            object_to_draw.push({ id: "marker", x: best_x, y: best_y, type: "Map Marker",
+                                      address: best_address,
+                                      data_received: "",
+                                      size: '80px',
+                                      offsetx: '40',
+                                      offsety: '80'
+                                });
           }
           overlay.drawIncidents(object_to_draw);
         });
